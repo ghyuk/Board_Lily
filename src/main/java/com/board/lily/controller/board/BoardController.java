@@ -111,11 +111,7 @@ public class BoardController {
     
   //05. 파일 다운로드
     @RequestMapping(value="downloadFile.do")
-    public void downloadFile(int bno, HttpServletResponse response) throws Exception{
-        BoardVO vo = boardService.read(bno);
-        String serFile = vo.getSerFile();
-        String oriFile = vo.getOriFile();
-         
+    public void downloadFile(String oriFile, String serFile, HttpServletResponse response) throws Exception{
         byte fileByte[] = FileUtils.readFileToByteArray(new File(uploadPath+"/"+serFile));
          
         response.setContentType("application/octet-stream");
@@ -123,7 +119,7 @@ public class BoardController {
         response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(oriFile,"UTF-8")+"\";");//download 될 파일 명 변경
         response.setHeader("Content-Transfer-Encoding", "binary");
         response.getOutputStream().write(fileByte);
-         
+        
         response.getOutputStream().flush();
         response.getOutputStream().close();
     }

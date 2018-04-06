@@ -12,19 +12,10 @@
     	
     		$("#file").click(function(){
     			var bno = $("#bno").val();
-    			window.location = "${path}/downloadFile.do?bno="+bno; 
-    			/* var form = $('form')[0];
-    			var formData = new FormData(form);
-    			 $.ajax({
-    				url: "/downloadFile.do",
-    				data: formData,
-    				processData: false,
-    				contentType: false,
-    				type:'POST',
-    				success: function(data){
-    					alert('download complete');
-    				}
-    			}) */
+    			var oriFile = $("#oriFile").val();
+    			var serFile = $("#serFile").val();
+    			window.location = "${path}/downloadFile.do?oriFile="+oriFile+"&&serFile="+serFile;
+    			
     		})
     		
     	
