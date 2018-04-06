@@ -12,7 +12,8 @@
             viewcnt 
         FROM 
             tbl_board
-     
+     	ORDER BY
+     		bno desc
     </select>
     <!-- 02. 게시글 작성 -->
     <insert id="insert">

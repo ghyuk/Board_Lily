@@ -19,7 +19,6 @@
 </head>
 <body>
 <h2>게시글 목록</h2>
-<button type="button" id="btnWrite">글쓰기</button>
 <table border="1" width="600px">
     <tr>
         <th>번호</th>
@@ -35,11 +34,16 @@
         <td>${row.writer}</td>
         <td>
             <!-- 원하는 날짜형식으로 출력하기 위해 fmt태그 사용 -->
-            <fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+            <fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd"/>
         </td>
         <td>${row.viewcnt}</td>
     </tr>    
     </c:forEach>
 </table>
+<div style="width: 600px">
+<div align="right">
+<button type="button" id="btnWrite" >글쓰기</button>
+</div>
+</div>
 </body>
 </html>
