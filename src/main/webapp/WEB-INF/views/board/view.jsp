@@ -93,7 +93,6 @@
         <input type="button" id="list" value="목록"></td>
 	</tr>
 </table>
-    
  	<div>
         <!-- 게시물번호를 hidden으로 처리 -->
         <input type="hidden" name="bno" id="bno" value="${dto.bno}">

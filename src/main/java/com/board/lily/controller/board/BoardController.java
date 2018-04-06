@@ -3,9 +3,7 @@ import java.io.File;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,14 +21,12 @@ import com.board.lily.model.board.dto.BoardVO;
 import com.board.lily.service.board.BoardService;
 
 @Controller    // 현재 클래스를 컨트롤러 빈(bean)으로 등록
-
 public class BoardController {
    @RequestMapping(value="/", method=RequestMethod.GET)
 	public String main() {
-	   
 	   return "redirect:list.do";
    }
-	
+
    String uploadPath = "/Users/ghyuk/Documents/lily_upload";
     // 의존관계 주입 => BoardServiceImpl 생성
     // IoC 의존관계 역전
@@ -59,24 +55,29 @@ public class BoardController {
     // 02_02. 게시글 작성처리
     @RequestMapping(value="insert.do", method=RequestMethod.POST)
     public String insert(@ModelAttribute BoardVO vo, MultipartFile file) throws Exception{
-    	
-    	UUID uid = UUID.randomUUID();
-        String oriName = file.getOriginalFilename();
-        String savedName = uid.toString() + "_" + oriName;
-        //여기서부터 해보자
-        vo.setOriFile(oriName);
-        vo.setSerFile(savedName);
+    		BoardVO bvo = uploadFile(vo, file);
+    		boardService.create(bvo);
+    		//return "redirect:list.do";
+    		return "redirect:view.do?bno="+bvo.getBno();
+    }
+    
+    // File Upload
+    @RequestMapping(value="uploadFile.do")
+    public BoardVO uploadFile(BoardVO vo, MultipartFile file) throws Exception {
+    		UUID uid = UUID.randomUUID();
+    		String oriName = file.getOriginalFilename();
+    		String savedName = uid.toString() + "_" + oriName;
 
-        File target = new File(uploadPath, savedName);
+    		vo.setOriFile(oriName);
+    		vo.setSerFile(savedName);
 
-        // 임시디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
-        // FileCopyUtils.copy(바이트배열, 파일객체)
-        FileCopyUtils.copy(file.getBytes(), target);
+    		File target = new File(uploadPath, savedName);
 
-    	
-        boardService.create(vo);
-        //return "redirect:list.do";
-        return "redirect:view.do?bno="+vo.getBno();
+    		// 임시디렉토리에 저장된 업로드된 파일을 지정된 디렉토리로 복사
+    		// FileCopyUtils.copy(바이트배열, 파일객체)
+    		FileCopyUtils.copy(file.getBytes(), target);
+    		
+    		return vo;
     }
     
     // 03. 게시글 상세내용 조회, 게시글 조회수 증가 처리
@@ -129,7 +130,7 @@ public class BoardController {
         response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(oriFile,"UTF-8")+"\";");//download 될 파일 명 변경
         response.setHeader("Content-Transfer-Encoding", "binary");
         response.getOutputStream().write(fileByte);
-        
+
         response.getOutputStream().flush();
         response.getOutputStream().close();
     }
@@ -149,4 +150,3 @@ public class BoardController {
     		return result;
     }
 }
- 
