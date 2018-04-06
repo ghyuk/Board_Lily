@@ -67,30 +67,28 @@
 <table border="1" width="600px">
 	<tr>
 		<th>제목</th>
-		<td><input name="title" id="title" size="80" value="${dto.title}" placeholder="제목을 입력해주세요"></td>
+		<td colspan="3"><input width="100%" name="title" id="title" size="80" value="${dto.title}" placeholder="제목을 입력해주세요"></td>
 	</tr>
 	<tr>
-		<th>작성자</th>
-		<td><input name="writer" id="writer" value="${dto.writer}" placeholder="이름을 입력해주세요"></td>
+		<th width="25%">작성자</th>
+		<td width="25%"><input width="100%" name="writer" id="writer" value="${dto.writer}" placeholder="이름을 입력해주세요"></td>
+		<th width="25%">조회수</th>
+		<td width="25%">${dto.viewcnt}</td>
 	</tr>
 	<tr>
 		<th>작성일자</th>
-		<td><fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
-	</tr>
-	<tr>
-		<th>조회수</th>
-		<td>${dto.viewcnt}</td>
+		<td colspan="3"><fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><textarea name="content" id="content" rows="4" cols="80" placeholder="내용을 입력해주세요">${dto.content}</textarea></td>
+		<td colspan="3"><textarea name="content" id="content" rows="4" cols="80" placeholder="내용을 입력해주세요">${dto.content}</textarea></td>
 	</tr>
 	<tr>
 		<th>첨부파일</th>
-		<td><a href="#" name="file" id="file" >"${dto.oriFile}"</a></td>
+		<td colspan="3"><a href="#" name="file" id="file" >"${dto.oriFile}"</a></td>
 	</tr>
-	<tr>
-	<td><input type="button" id="btnUpdete" value="수정">
+	<tr align="right">
+	<td colspan="4"><input type="button" id="btnUpdete" value="수정">
         <input type="button" id="btnDelete" value="삭제">
         <input type="button" id="list" value="목록"></td>
 	</tr>

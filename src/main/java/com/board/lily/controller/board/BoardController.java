@@ -109,7 +109,7 @@ public class BoardController {
         return "redirect:list.do";
     }
     
-  //05. 파일 다운로드
+    //	05. 파일 다운로드
     @RequestMapping(value="downloadFile.do")
     public void downloadFile(String oriFile, String serFile, HttpServletResponse response) throws Exception{
         byte fileByte[] = FileUtils.readFileToByteArray(new File(uploadPath+"/"+serFile));
@@ -123,7 +123,6 @@ public class BoardController {
         response.getOutputStream().flush();
         response.getOutputStream().close();
     }
-
 
    
 }

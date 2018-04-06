@@ -82,4 +82,10 @@ public class BoardServiceImpl implements BoardService {
             
         }
     }
+    // 07. 첨부파일 삭제
+	@Override
+	public void deleteFile(int bno) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }

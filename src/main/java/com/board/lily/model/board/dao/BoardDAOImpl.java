@@ -45,5 +45,10 @@ public class BoardDAOImpl implements BoardDAO {
     public void increaseViewcnt(int bno) throws Exception {
         SqlSession.update("increaseViewcnt", bno);
     }
- 
+    //	07. 첨부파일 삭제
+	@Override
+	public void deleteFile(int bno) throws Exception {
+		SqlSession.delete("deleteFile");
+	}
+    
 }
