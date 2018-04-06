@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 작성</title>
+<title>게시글 보기</title>
 <script type="text/javascript" src="/resources/include/js/jquery-1.12.4.min.js"></script>
 <script>
     $(document).ready(function(){

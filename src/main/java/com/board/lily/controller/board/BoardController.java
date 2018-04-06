@@ -1,6 +1,7 @@
 package com.board.lily.controller.board;
 import java.io.File;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -104,8 +105,17 @@ public class BoardController {
     
     // 05. 게시글 삭제
     @RequestMapping("delete.do")
-    public String delete(@RequestParam int bno) throws Exception{
-        boardService.delete(bno);
+    public String delete(BoardVO vo) throws Exception{
+    		int result = deleteFile(vo.getSerFile());
+    		
+    		if(result == 1) {
+    			try {
+    				boardService.deleteFile(vo.getBno());
+    				boardService.delete(vo.getBno());
+    			}catch(SQLException se) {
+    				se.printStackTrace();
+    			}
+    		}
         return "redirect:list.do";
     }
     
@@ -124,6 +134,19 @@ public class BoardController {
         response.getOutputStream().close();
     }
 
-   
+    // 06. 파일 삭제
+    @RequestMapping(value="deleteFile.do")
+    public int deleteFile(String serFile) {
+    		String path = uploadPath + "/" + serFile;
+    		int result = 0;
+    		File file = new File(path);
+    		if(file.exists()) {
+    			if(file.delete()) {
+    				result = 1;
+    				return result;
+    			}
+    		}
+    		return result;
+    }
 }
  

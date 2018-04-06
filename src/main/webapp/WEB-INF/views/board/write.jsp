@@ -62,25 +62,30 @@
 
 <h2>게시글 작성</h2>
 <form name="form1" method="post" action="${path}/insert.do" enctype="multipart/form-data">
-    <div>
-        제목
-        <input width="300px" name="title" id="title" size="80" placeholder="제목을 입력해주세요">
-         이름
-        <input width="300px" name="writer" id="writer" placeholder="이름을 입력해주세요">
-    </div>
-    <div>
-        내용
-        <textarea name="content" id="content" rows="4" cols="80" placeholder="내용을 입력해주세요"></textarea>
-    </div>
-    <div>
-       
-    </div>
-     <input type="file" name="file">
-    <div style="width:650px; text-align: center;">
-        <button type="button" id="btnSave">확인</button>
-        <button type="button" id="btnReset">취소</button>
-  
-    </div>
+<table border="1" width="600px">
+	<tr>
+		<th>제목</th>
+		<td><input width="300px" name="title" id="title" size="80" placeholder="제목을 입력해주세요"></td>
+	</tr>
+	<tr>
+		<th>이름</th>
+		<td><input width="300px" name="writer" id="writer" placeholder="이름을 입력해주세요"></td>
+	</tr>
+	<tr>
+		<th>내용</th>
+		<td><textarea name="content" id="content" rows="4" cols="80" placeholder="내용을 입력해주세요"></textarea></td>
+	</tr>
+	<tr>
+		<th>첨부파일</th>
+		<td><input type="file" name="file"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="right">
+			<button type="button" id="btnSave">확인</button>
+        		<button type="button" id="btnReset">취소</button>
+        	</td>
+	</tr>
+</table>
 </form>
 </body>
 </html>
