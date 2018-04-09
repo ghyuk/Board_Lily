@@ -88,4 +88,8 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void updateFile(BoardVO vo) throws Exception {
+		boardDao.updateFile(vo);
+	}
 }

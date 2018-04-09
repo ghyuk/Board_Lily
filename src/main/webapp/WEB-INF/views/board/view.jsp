@@ -10,7 +10,7 @@
 <script>
     $(document).ready(function(){
     	
-    		$("#file").click(function(){
+    		$("#downloadFile").click(function(){
     			var bno = $("#bno").val();
     			var oriFile = $("#oriFile").val();
     			var serFile = $("#serFile").val();
@@ -52,9 +52,27 @@
                 document.form1.writer.focus();
                 return;
             }
-            document.form1.action="${path}/update.do"
+            
+            var form = $('form')[0];
+            var formData = new FormData(form);
+            $.ajax({
+            		url: '/update.do',
+            		data: formData,
+            		processData: false,
+            		contentType: false,
+            		type:'POST',
+            		success: function(data){
+            			alert('Update success');
+            			var bno = $("#bno").val();
+            			window.location = "${path}/view.do?bno="+bno;
+            		},
+            		fail: function(data){
+            			alert("Update Fail");
+            		}
+            }); 
+            /* document.form1.action="${path}/update.do"
             // 폼에 입력한 데이터를 서버로 전송
-            document.form1.submit();
+            document.form1.submit(); */
         });
      
     });
@@ -85,7 +103,7 @@
 	</tr>
 	<tr>
 		<th>첨부파일</th>
-		<td colspan="3"><a href="#" name="file" id="file" >"${dto.oriFile}"</a></td>
+		<td colspan="3"><input type="file" id="file" name="file"><a href="#" name="downloadFile" id="downloadFile" >"${dto.oriFile}"</a></td>
 	</tr>
 	<tr align="right">
 	<td colspan="4"><input type="button" id="btnUpdete" value="수정">

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +23,7 @@ import com.board.lily.service.board.BoardService;
 
 @Controller    // 현재 클래스를 컨트롤러 빈(bean)으로 등록
 public class BoardController {
+	Logger logger = Logger.getLogger(BoardController.class);
    @RequestMapping(value="/", method=RequestMethod.GET)
 	public String main() {
 	   return "redirect:list.do";
@@ -36,6 +38,7 @@ public class BoardController {
     // 01. 게시글 목록
     @RequestMapping("list.do")
     public ModelAndView list() throws Exception{
+    		logger.info("Call List Success");
         List<BoardVO> list = boardService.listAll();
         // ModelAndView - 모델과 뷰
         ModelAndView mav = new ModelAndView();
@@ -49,12 +52,14 @@ public class BoardController {
     // value="", method="전송방식"
     @RequestMapping(value="write.do", method=RequestMethod.GET)
     public String write(){
+    		logger.info("Call WriteFrom Success");
         return "board/write"; // write.jsp로 이동
     }
     
     // 02_02. 게시글 작성처리
     @RequestMapping(value="insert.do", method=RequestMethod.POST)
     public String insert(@ModelAttribute BoardVO vo, MultipartFile file) throws Exception{
+    		logger.info("Call Insert Success");
     		BoardVO bvo = uploadFile(vo, file);
     		boardService.create(bvo);
     		//return "redirect:list.do";
@@ -64,6 +69,7 @@ public class BoardController {
     // File Upload
     @RequestMapping(value="uploadFile.do")
     public BoardVO uploadFile(BoardVO vo, MultipartFile file) throws Exception {
+    		logger.info("Call UploadFile Success");
     		UUID uid = UUID.randomUUID();
     		String oriName = file.getOriginalFilename();
     		String savedName = uid.toString() + "_" + oriName;
@@ -85,6 +91,7 @@ public class BoardController {
     // HttpSession 세션객체
     @RequestMapping(value="view.do", method=RequestMethod.GET)
     public ModelAndView view(@RequestParam int bno, HttpSession session) throws Exception{
+    		logger.info("Call View Success");
         // 조회수 증가 처리
         boardService.increaseViewcnt(bno, session);
         // 모델(데이터)+뷰(화면)를 함께 전달하는 객체
@@ -99,14 +106,22 @@ public class BoardController {
     // 04. 게시글 수정
     // 폼에서 입력한 내용들은 @ModelAttribute BoardVO vo로 전달됨
     @RequestMapping(value="update.do", method=RequestMethod.POST)
-    public String update(@ModelAttribute BoardVO vo) throws Exception{
-        boardService.update(vo);
-        return "redirect:list.do";
+    public String update(@ModelAttribute BoardVO vo, MultipartFile file) throws Exception{
+    		logger.info("Call Update Success");
+    		int result = deleteFile(vo.getSerFile());
+    		BoardVO bvo = new BoardVO();
+    		if(result == 1) {
+    			bvo = uploadFile(vo, file);
+    			boardService.updateFile(bvo);
+    			boardService.update(bvo);
+    		}
+    		return "redirect:view.do?bno="+bvo.getBno();
     }
     
     // 05. 게시글 삭제
     @RequestMapping("delete.do")
     public String delete(BoardVO vo) throws Exception{
+    		logger.info("Call Delete Success");
     		int result = deleteFile(vo.getSerFile());
     		
     		if(result == 1) {
@@ -123,6 +138,7 @@ public class BoardController {
     //	05. 파일 다운로드
     @RequestMapping(value="downloadFile.do")
     public void downloadFile(String oriFile, String serFile, HttpServletResponse response) throws Exception{
+    		logger.info("Call DownloadFile Success");
         byte fileByte[] = FileUtils.readFileToByteArray(new File(uploadPath+"/"+serFile));
          
         response.setContentType("application/octet-stream");
@@ -138,6 +154,7 @@ public class BoardController {
     // 06. 파일 삭제
     @RequestMapping(value="deleteFile.do")
     public int deleteFile(String serFile) {
+    		logger.info("Call DeleteFile Success");
     		String path = uploadPath + "/" + serFile;
     		int result = 0;
     		File file = new File(path);

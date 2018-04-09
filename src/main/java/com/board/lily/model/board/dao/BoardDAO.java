@@ -19,5 +19,7 @@ public interface BoardDAO {
     public void increaseViewcnt(int bno) throws Exception;
     //	07. 첨부파일 삭제
     public void deleteFile(int bno) throws Exception;
+    // 08. 첨부파일 수정
+    public void updateFile(BoardVO vo) throws Exception;
 }
 

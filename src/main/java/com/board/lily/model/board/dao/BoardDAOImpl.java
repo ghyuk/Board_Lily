@@ -50,5 +50,9 @@ public class BoardDAOImpl implements BoardDAO {
 	public void deleteFile(int bno) throws Exception {
 		SqlSession.delete("deleteFile");
 	}
+	@Override
+	public void updateFile(BoardVO vo) throws Exception {
+		SqlSession.update("updateFile",vo);
+	}
     
 }

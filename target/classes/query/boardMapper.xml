@@ -54,6 +54,13 @@
             writer = #{writer}
         WHERE bno = #{bno}
     </update>
+    <!-- 첨부파일 수정처리 -->
+    <update id="updateFile">
+    		UPDATE tbl_board_file SET
+    			orifile = #{oriFile},
+    			serFile = #{serFile}
+    		WHERE bno = #{bno}
+    </update>
     <!-- 06. 게시글 삭제처리 -->
     <delete id="deleteArticle">
         DELETE FROM tbl_board
