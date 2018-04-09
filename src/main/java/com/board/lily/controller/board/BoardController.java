@@ -108,6 +108,7 @@ public class BoardController {
     @RequestMapping(value="update.do", method=RequestMethod.POST)
     public String update(@ModelAttribute BoardVO vo, MultipartFile file) throws Exception{
     		logger.info("Call Update Success");
+    		if(!file.isEmpty()) {
     		int result = deleteFile(vo.getSerFile());
     		BoardVO bvo = new BoardVO();
     		if(result == 1) {
@@ -116,6 +117,10 @@ public class BoardController {
     			boardService.update(bvo);
     		}
     		return "redirect:view.do?bno="+bvo.getBno();
+    		}else {
+    			boardService.update(vo);
+    			return "redirect:view.do?bno="+vo.getBno();
+    		}
     }
     
     // 05. 게시글 삭제
